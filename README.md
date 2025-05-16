@@ -10,7 +10,7 @@ public class InputBasic {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        /* 기본 자료형 
+        /* 기본 자료형 */
         int num = scanner.nextInt();        // 정수 입력
         double d = scanner.nextDouble();    // 실수 입력
         String s = scanner.next();          // 문자열 입력 (공백 기준)
