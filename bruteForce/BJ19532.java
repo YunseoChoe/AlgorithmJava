@@ -1,4 +1,5 @@
 // 수학은 비대면강의입니다
+// 백트래킹 -> 브루트 포스 방법으로 변경.
 package bruteForce;
 import java.util.*;
 
