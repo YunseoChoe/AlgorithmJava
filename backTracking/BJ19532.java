@@ -27,6 +27,7 @@ public class BJ19532 {
                 // x, y 출력 후 종료 (?)
                 System.out.print(x + " ");
                 System.out.println(y);
+                System.exit(0); // 종료. (이거 안 넣어도 왜 맞지? -> 어차피 x, y는 1개만 존재하기 때문)
             }
             return;
         }
