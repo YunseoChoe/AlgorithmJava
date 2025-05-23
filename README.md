@@ -88,3 +88,12 @@ public class InputBasic {
 | length   | 배열의 길이를 구할 때             | `int[] arr = new int[5]; arr.length` |
 | length() | 문자열의 길이를 구할 때           | `String s = "hello"; s.length()` |
 | size()   | List, Set 등의 크기 구할 때 | `ArrayList<Integer> list; list.size()` |
+
+
+### 3. Set 
+```
+static Set<Character> set = new HashSet<>();         // 선언 (문자형 Set)
+set.add();                                           // 추가
+set.remove();                                        // 삭제
+```
+
