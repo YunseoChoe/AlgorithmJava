@@ -38,11 +38,11 @@ public class BJ14889 {
             /* ------------- 인덱스 조합하기 ------------ */
             // 팀 A
             ArrayList<int[]> returnIndex = new ArrayList<>();
-            makeATeamIndex(teamA, 0, returnIndex);
+            makeTeamIndex(teamA, 0, returnIndex);
     
             // 팀 B
             ArrayList<int[]> returnIndexB = new ArrayList<>();
-            makeATeamIndex(teamB, 0, returnIndexB);
+            makeTeamIndex(teamB, 0, returnIndexB);
 
             /* ------------- 능력치 구하기 ------------ */
             // team A
@@ -79,7 +79,7 @@ public class BJ14889 {
     }
      
     // 팀원 조합
-    public static void makeATeamIndex(ArrayList<Integer> arr, int index, ArrayList<int[]> returnIndex) {
+    public static void makeTeamIndex(ArrayList<Integer> arr, int index, ArrayList<int[]> returnIndex) {
         if (teamIndex.size() == 2) {
             int[] addValue = {teamIndex.get(0), teamIndex.get(1)}; 
             returnIndex.add(addValue); // 깊은 복사로 넣기.
@@ -87,7 +87,7 @@ public class BJ14889 {
         }
         for (int i = index; i < arr.size(); i++) {
                 teamIndex.add(arr.get(i));
-                makeATeamIndex(arr, i + 1, returnIndex);
+                makeTeamIndex(arr, i + 1, returnIndex);
                 teamIndex.remove(teamIndex.size() - 1);
         }
     }
