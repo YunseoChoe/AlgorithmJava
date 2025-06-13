@@ -5,7 +5,6 @@ import java.util.*;
 public class BJ14502 {
     static int n, m, safeZoneCnt;
     static int[][] map;
-    static boolean[][] visited;
     static int[] dx = {0, 0, 1, -1};
     static int[] dy = {1, -1, 0, 0};
     
@@ -15,7 +14,6 @@ public class BJ14502 {
         n = scanner.nextInt();
         m = scanner.nextInt();
         map = new int[n][m];
-        visited = new boolean[n][m];
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
