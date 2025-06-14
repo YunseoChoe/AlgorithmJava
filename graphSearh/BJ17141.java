@@ -49,7 +49,7 @@ public class BJ17141 {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     // 바이러스가 다 퍼지지 않았다면 (모든 경우에서 다 퍼지지 않는다면 timeArr는 결국 빈 값)
-                    if (temp[i][j] == 0) {
+                    if (temp[i][j] == 0 || temp[i][j] == 2) { // 0 또는 2는 바이러스가 다 퍼지지 않은 곳
                         return;
                     }
                     // 바이러스이면
@@ -60,7 +60,7 @@ public class BJ17141 {
                     }
                 }    
             }
-            timeArr.add(time - 1); // visited를 1부터 시작했으므로 -1.
+            timeArr.add(time - 1); 
             return;
         }
 
