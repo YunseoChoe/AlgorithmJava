@@ -1,47 +1,40 @@
-// 부분 수열의 합
+// 부분수열의 합
 package bruteForce;
 import java.util.*;
 
 public class BJ14225 {
     static int n;
-    static int findValue;
-    static int[] num;
-    static HashSet<Integer> sumSet = new HashSet<>(); 
+    static int[] s;
+    static boolean[] sumArr; // sum값 자체가 인덱스, 시간 복잡도: O(1)
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        // 입력
-        n = scanner.nextInt();
-        num = new int[n];
-        for (int i = 0; i < n; i++)  {
-            num[i] = scanner.nextInt();
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        s = new int[n];
+        int maxSum = 0;
+        for (int i = 0; i < n; i++) {
+            s[i] = sc.nextInt();
+            maxSum += s[i];
         }
+        sumArr = new boolean[maxSum + 2]; // 1부터 maxSum까지 모든 원소가 부분 수열의 합일 수도 있으므로 + 1 더 해야 함.
+        solve(0, 0);
 
-        makeSequence(0, 0);
-
-        // 최대합 찾기
-        int maxSum = Collections.max(sumSet);
-
-        // 1부터 자연수 중에서 arr에 있지 않으면
-        for (int i = 1; i <= maxSum + 1; i++) { 
-            if (!sumSet.contains(i)) {
-                findValue = i;
+        // sumArr값이 false인 index를 찾아 출력
+        for (int i = 1; i <= maxSum + 1; i++) {
+            if (!sumArr[i]) {
+                System.out.println(i);
                 break;
-            } 
+            }
         }
-        System.out.println(findValue);
     }
 
-    public static void makeSequence(int idx, int sum) {
-        // 종료 조건
+    public static void solve(int idx, int sum) {
         if (idx == n) {
-            // sum값들 중복 없이 추가
-            sumSet.add(sum); // ArrayList를 사용해서, 중복 없이 값을 넣으려고 할 때 시간초과 발생함.
+            sumArr[sum] = true;
             return;
         }
-
-        // 현재 원소 넣기
-        makeSequence(idx + 1, sum + num[idx]);
-        // 현재 원소 안 넣기
-        makeSequence(idx + 1, sum);
+        // 현재 원소 포함
+        solve(idx + 1, sum + s[idx]);
+        // 현재 원소 포함 x
+        solve(idx + 1, sum);
     }
 }
