@@ -1,63 +1,136 @@
-// 구슬 탈출 2
 package graphSearh;
 import java.util.*;
 
 public class BJ13460 {
-    static int rsx, rsy, bsx, bsy;
+    static int n, m;
+    static int[] dx = {0, 0, 1, -1}; 
+    static int[] dy = {1, -1, 0, 0}; 
+    static char[][] board;
+    static boolean[][][][] visited; // 4차원 행렬 (4개의 위치가 하나의 상태)
+    static int rsx, rsy, bsx, bsy; 
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        sc.nextLine(); 
+
+        board = new char[n][m];
+        visited = new boolean[n][m][n][m]; 
+
+        for (int i = 0; i < n; i++) {
+            String line = sc.nextLine();
+            for (int j = 0; j < m; j++) {
+                board[i][j] = line.charAt(j);
+                if (board[i][j] == 'R') {
+                    rsx = i;
+                    rsy = j;
+                } else if (board[i][j] == 'B') {
+                    bsx = i;
+                    bsy = j;
+                }
+            }
+        }
+
         int result = solve();
         System.out.println(result);
+        sc.close();
     }
 
     public static int solve() {
         Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] { rsx, rsy, bsx, bsy, 0 });
-        visited[rsx][rsy][bsx][bsy] = true;
+        queue.add(new int[] { rsx, rsy, bsx, bsy, 0 }); 
+        visited[rsx][rsy][bsx][bsy] = true; 
 
         while (!queue.isEmpty()) {
             int[] cur = queue.poll();
-            // 10번 초과됐으면. (다른 queue도 봐야 하므로 종료하면 안 됨.)
-            if (cur[4] > 10) {
-                continue;
+            int rcx = cur[0];
+            int rcy = cur[1];
+            int bcx = cur[2];
+            int bcy = cur[3];
+            int count = cur[4]; 
+
+            // 이동 횟수가 10번을 초과하면 더 이상 탐색할 필요 없음 
+            if (count >= 10) { 
+                break; 
             }
 
-            for (int i = 0; i < 4; i++) {
-                int[] rinfo = move(cur[0], cur[1]);
-                int[] binfo = move(cur[2], cur[3]);
-                // 파란색 구슬이 구멍에 들어갔는지 먼저 보기 (파란색이 구슬이 구멍에 들어가면 안 되기 때문)
-                boolean bHole = isHole(binfo[0], binfo[1]);
-                if (bHole) {
-                    continue;
-                }
-                // 그 후, 빨간색 구슬이 구멍에 들어갔는지 확인 하기
-                boolean rHole = isHole(rinfo[0], rinfo[1]);
-                if (rHole) {
-                    return cur[4];
-                }
-                // 둘 다 구멍에 빠지지 않은 경우
-                // 빨간색, 파란색 구슬이 같은 위치에 있다면,
-                if () {
+            for (int i = 0; i < 4; i++) { 
+                int[] rinfo = move(rcx, rcy, i); 
+                int[] binfo = move(bcx, bcy, i);
 
-                }
-                // 옮겨진 해당 위치가 처음 방문하는 거라면, queue에다가 넣어준다.0부터
+                int rnx = rinfo[0]; 
+                int rny = rinfo[1]; 
+                int bnx = binfo[0]; 
+                int bny = binfo[1]; 
+                
+                boolean bHole = isHole(bnx, bny);
 
-                if () {
+                // 파란색 공이 구멍에 들어가지 않았다면
+                if (!bHole) { 
+                    boolean rHole = isHole(rnx, rny);
 
-                }
+                    // 빨간색 공이 구멍에 들어갔다면
+                    if (rHole) {
+                        return count + 1; 
+                    }
+
+                    // 아무 공도 구멍에 들어가지 않았다면
+                    // 서로 같은 위치라면 위치 조정
+                    if (rnx == bnx && rny == bny) {
+                        if (rinfo[2] > binfo[2]) { 
+                            rnx -= dx[i]; 
+                            rny -= dy[i];
+                        } else { 
+                            bnx -= dx[i]; 
+                            bny -= dy[i];
+                        }
+                    }
+                    
+                    // 처음 방문하는 곳이라면
+                    if (!visited[rnx][rny][bnx][bny]) {
+                        visited[rnx][rny][bnx][bny] = true;
+                        queue.add(new int[] {rnx, rny, bnx, bny, count + 1}); 
+                    }
+                } 
             }
-
         }
+        // 파란색 공이 구멍에 들어갔거나, 10번 초과됐을 경우.
         return -1;
     }
 
-    // 구슬을 이동시키는 함수
-    public static int[] move(int x, int y) {
-        return new int[] { 0, 0, 0 };
+    public static int[] move(int x, int y, int dir) {
+        int nx = x;
+        int ny = y;
+        int cnt = 0; 
+
+        while (true) {
+            int nextX = nx + dx[dir]; 
+            int nextY = ny + dy[dir]; 
+
+            // 벽을 만났으면 바로 종료
+            if (board[nextX][nextY] == '#') {
+                break;
+            }
+            // 구멍을 만났으면 이동 후 종료
+            if (board[nextX][nextY] == 'O') {
+                nx = nextX;
+                ny = nextY;
+                cnt++; 
+                break;
+            }
+            // 아무것도 만나지 않았다면 이동
+            nx = nextX;
+            ny = nextY;
+            cnt++; 
+        }
+        return new int[] { nx, ny, cnt }; 
     }
 
-    // 구멍에 빠졌는지 확인하는 함수
     public static boolean isHole(int x, int y) {
-        boolean false;
+        if (board[x][y] == 'O') {
+            return true;
+        }   
+        return false;
     }
 }
