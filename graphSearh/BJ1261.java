@@ -11,16 +11,17 @@ public class BJ1261 {
     static int[] dy = {1, -1, 0, 0};
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		// StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		m = Integer.parseInt(st.nextToken());
-		n = Integer.parseInt(st.nextToken());
+		String[] arr = br.readLine().split(" "); // " " 기준
+        m = Integer.parseInt(arr[0]);
+        n = Integer.parseInt(arr[1]);
 		
 		board = new int[n][m];
         visited = new boolean[n][m];
 		
 		for(int i = 0; i < n; i++) {
-			String[] line = br.readLine().split("");
+			String[] line = br.readLine().split(""); // "" 기준
 			for(int j = 0; j < m; j++) {
 				int num = Integer.parseInt(line[j]);
 				board[i][j] = num;
@@ -36,7 +37,7 @@ public class BJ1261 {
         visited[0][0] = true;
 
         while (!deque.isEmpty()) {
-            int[] cur = deque.poll();
+            int[] cur = deque.poll(); // 맨 앞부터 삭제됨.
             // 도착했다면
             if (cur[0] == n - 1 && cur[1] == m - 1) {
                 System.out.println(cur[2]);
