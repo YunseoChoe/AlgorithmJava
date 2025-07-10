@@ -1,40 +1,80 @@
 // 다익스트라 알고리즘 
 package graphSearh;
+import java.io.*;
+import java.util.*;
 
 public class Dijkstra {
-    static int n;
-    static int[][] g;
+    static int n, infinite = Integer.MAX_VALUE;
+    static int[] dist;
+    static boolean[] visited;
+    static int[][] graph;
+    
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
 
-    public static void main(String[] args) {
-        
+        dist = new int[n];
+        Arrays.fill(dist, infinite); // 거리 무한대로 초기화.
+        visited = new boolean[n];
+        graph = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            String[] list = br.readLine().split("");
+            for (int j = 0; j < n; j++) {
+                graph[i][j] = Integer.parseInt(list[j]);
+            }
+        }
+
+        dijkstra(0); // 0번 노드부터 시작.
     }
 
     public static int getMin() {
-        return -1;
+        int minValue = Integer.MAX_VALUE;
+        int minIndex = -1;
+        for (int i = 0; i < n; i++) {
+            // 방문하지 않았고, 최솟값 구하기
+            if (!visited[i] && dist[i] < minValue) {
+                minValue = dist[i];
+                minIndex = i;
+            }
+        }
+        return minIndex;  // 최솟값의 인덱스를 반환해야 함.
     }
 
-    public static void dijkstra(int start) { // start vertex
-        int[] dist;
-        boolean[] visited;
-        dist[start] = 0;
+    public static void dijkstra(int start) { 
+        dist[start] = 0;        // 시작 노드의 거리는 0.
+        visited[start] = true;  // 시작 노드 방문처리.
+
+        // 시작 노드로부터 거리 초기화
         for(int i = 0; i < n; i++) {
-            if (g[start][i] != 0) {
-                dist[i] = g[start][i]; 
+            if (graph[start][i] != 0) {
+                dist[i] = graph[start][i]; 
             }
         }
         
-        while(true) { // 모든 노드들이 전부 방문처리가 되면 while문이 종료되어야 한다
-            int cur = getMin();
-            visited[start] = true; // 뽑혔을 때 visited를 업데이트하기
+        while(true) {
+            int cur = getMin(); 
+            // 모든 노드를 방문했다면 종료.
+            if (cur == -1) {
+                System.out.print("0번 노드에서의 거리: ");
+                for (int i = 0; i < n; i++) {
+                    System.out.print(dist[i] + " ");
+                }
+                break;
+            }
+            visited[cur] = true; // 뽑혔을 때 visited 업데이트 -> dist들 중에서 가장 작은 노드 cur가 뽑혔다는 건, cur노드는 더 짧은 경로가 있을 수 없는 상태라는 뜻.
             for(int i = 0; i < n; i++) {
-                if(인접해있는지도 보고, 방문을 안 했는지도 보고) {
-                    if (dist[cur] + g[cur][i] < dist[i]) {
-                        // cur을 거치고 i로 가는 것이 더 최단거리인지?
-                        // 아니면, cur를 거치지 않고 i를 가는 것이 더 최단거리인지
-                        dist[i] = dist[cur] + g[cur][i];
-                    }
+                // 방문하지 않았고, 인접해 있다면
+                if(!visited[i] && graph[cur][i] != 0) { 
+                    dist[i] = Math.min(dist[i], dist[cur] + graph[cur][i]); // 기존 dist 값 vs 거쳐 갔을 때의 값 
                 }
             }
         }
     }
 }
+
+// 025100
+// 203200
+// 530315
+// 123010
+// 001102
+// 005020
