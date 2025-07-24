@@ -1,4 +1,4 @@
-// 다익스트라 알고리즘 
+// 다익스트라 알고리즘
 package graphSearh;
 import java.io.*;
 import java.util.*;
@@ -8,15 +8,58 @@ public class Dijkstra {
     static int[] dist;
     static boolean[] visited;
     static int[][] graph;
+
+    static class Node implements Comparable<Node> {
+        int vertex;
+        int weight; 
+
+        public Node(int vertex, int weight) {
+            this.vertex = vertex;
+            this.weight = weight;
+        }
+
+        // priority queue에서 우선순위 비교를 위해 내부적으로 실행하는 함수
+        // 정렬 기준을 정하는 함수
+        @Override
+        public int compareTo(Node o) { 
+            return this.weight - o.weight; // 오름차순 정렬
+        }
+    }
+
+    public static void dijkstra(int start) { 
+        PriorityQueue<Node> pq = new PriorityQueue<>(); 
+        pq.offer(new Node(start, 0));
+        dist[start] = 0;      
+        
+        while(!pq.isEmpty()) {
+            Node cur = pq.poll(); // 가장 작은 weight을 가진 Node를 꺼냄.
+
+            // 방문했다면
+            if (visited[cur.vertex]) continue;
+            visited[cur.vertex] = true;
+
+            for (int i = 0; i < n; i++) {
+                // 인접하고, 방문하지 않았다면
+                if (graph[cur.vertex][i] != 0 && !visited[i]) {
+                    int newDist = dist[cur.vertex] + graph[cur.vertex][i];
+                    if (dist[i] > newDist) {
+                        dist[i] = newDist;
+                        pq.offer(new Node(i, newDist)); // (정점, 거리)
+                    }
+                }
+            }
+        }
+    }
     
     public static void main(String args[]) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
 
+        n = Integer.parseInt(br.readLine());
         dist = new int[n];
-        Arrays.fill(dist, infinite); // 거리 무한대로 초기화.
+        Arrays.fill(dist, infinite);
         visited = new boolean[n];
         graph = new int[n][n];
+
         for (int i = 0; i < n; i++) {
             String[] list = br.readLine().split("");
             for (int j = 0; j < n; j++) {
@@ -25,51 +68,16 @@ public class Dijkstra {
         }
 
         dijkstra(0); // 0번 노드부터 시작.
-    }
 
-    public static int getMin() {
-        int minValue = Integer.MAX_VALUE;
-        int minIndex = -1;
+        System.out.println("0번 노드로부터 각 노드까지의 최단 거리:");
         for (int i = 0; i < n; i++) {
-            // 방문하지 않았고, 최솟값 구하기
-            if (!visited[i] && dist[i] < minValue) {
-                minValue = dist[i];
-                minIndex = i;
+            if (dist[i] == infinite) {
+                System.out.println(i + ": 도달 불가");
+            } else {
+                System.out.println(i + ": " + dist[i]);
             }
         }
-        return minIndex;  // 최솟값의 인덱스를 반환해야 함.
-    }
-
-    public static void dijkstra(int start) { 
-        dist[start] = 0;        // 시작 노드의 거리는 0.
-        visited[start] = true;  // 시작 노드 방문처리.
-
-        // 시작 노드로부터 거리 초기화
-        for(int i = 0; i < n; i++) {
-            if (graph[start][i] != 0) {
-                dist[i] = graph[start][i]; 
-            }
-        }
-        
-        while(true) {
-            int cur = getMin(); 
-            // 모든 노드를 방문했다면 종료.
-            if (cur == -1) {
-                System.out.print("0번 노드에서의 거리: ");
-                for (int i = 0; i < n; i++) {
-                    System.out.print(dist[i] + " ");
-                }
-                break;
-            }
-            visited[cur] = true; // 뽑혔을 때 visited 업데이트 -> dist들 중에서 가장 작은 노드 cur가 뽑혔다는 건, cur노드는 더 짧은 경로가 있을 수 없는 상태라는 뜻.
-            for(int i = 0; i < n; i++) {
-                // 방문하지 않았고, 인접해 있다면
-                if(!visited[i] && graph[cur][i] != 0) { 
-                    dist[i] = Math.min(dist[i], dist[cur] + graph[cur][i]); // 기존 dist 값 vs 거쳐 갔을 때의 값 
-                }
-            }
-        }
-    }
+    }    
 }
 
 // 025100
