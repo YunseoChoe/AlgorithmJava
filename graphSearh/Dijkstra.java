@@ -9,7 +9,7 @@ public class Dijkstra {
     static boolean[] visited;
     static int[][] graph;
 
-    static class Node implements Comparable<Node> {
+    static class Node {
         int vertex;
         int weight; 
 
@@ -17,17 +17,10 @@ public class Dijkstra {
             this.vertex = vertex;
             this.weight = weight;
         }
-
-        // priority queue에서 우선순위 비교를 위해 내부적으로 실행하는 함수
-        // 정렬 기준을 정하는 함수
-        @Override
-        public int compareTo(Node o) { 
-            return this.weight - o.weight; // 오름차순 정렬
-        }
     }
 
     public static void dijkstra(int start) { 
-        PriorityQueue<Node> pq = new PriorityQueue<>(); 
+        PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> o1.weight - o2.weight); // 람다식. 
         pq.offer(new Node(start, 0));
         dist[start] = 0;      
         
