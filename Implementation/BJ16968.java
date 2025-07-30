@@ -11,6 +11,11 @@ public class BJ16968 {
         Scanner sc = new Scanner(System.in);
         str = sc.next();
 
+        solve(str);
+        System.out.println(sum);
+    }
+
+    public static void solve(String str) {
         for (int i = 0; i < str.length(); i++) {
             int numCase = 10;
             int charCase = 26;
@@ -50,7 +55,5 @@ public class BJ16968 {
                 }
             }
         }
-
-        System.out.println(sum);
     }
 }
