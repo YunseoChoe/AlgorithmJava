@@ -4,7 +4,6 @@ import java.util.*;
 
 public class BJ1697 {
     static int n, k;
-    static int[] ways = {1, -1, 2};
     static boolean[] visited = new boolean[100001];
 
     public static void main (String[] main) {
@@ -28,13 +27,12 @@ public class BJ1697 {
                 break;
             }
             
-            // 3가지의 위치 모두 보기
-            int newPos;
-            for (int i : ways) {
-                newPos = (i != 2) ? cur[0] + i : cur[0] * i;
-                if (0 <= newPos && newPos <= 100000 && !visited[newPos]) {
-                    queue.add(new int[] {newPos, cur[1] + 1});
-                    visited[newPos] = true;
+            // 3가지의 위치 확인
+            int[] nextPositions = {cur[0] - 1, cur[0] + 1, cur[0] * 2};
+            for (int next : nextPositions) {
+                if (0 <= next && next <= 100000 && !visited[next]) {
+                    queue.add(new int[] {next, cur[1] + 1});
+                    visited[next] = true;
                 }
             }
         }
