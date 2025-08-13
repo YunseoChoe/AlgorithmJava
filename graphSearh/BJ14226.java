@@ -6,9 +6,6 @@ import java.util.*;
 public class BJ14226 {
     static int s;
     static boolean[][] visited = new boolean[1001][1001];
-    /*
-    visited를 2차원으로 구현하는 이유는 화면에 같은 개수의 이모티콘이 존재해도, 클립보드에 몇 개가 복사되어 있는 지는 다를 수 있으므로 붙여넣기를 하면 결과가 달라지기 때문이다. 따라서 visited를 1차원으로만 구현하는 건 한계가 있음.
-    */
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -29,7 +26,7 @@ public class BJ14226 {
             int clip = cur[2];
 
             // 종료 조건
-            if (screen >= s) {
+            if (screen == s) {
                 System.out.println(time);
                 break;
             }
