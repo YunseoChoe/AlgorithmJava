@@ -5,6 +5,7 @@ import java.util.*;
 public class BJ11053 {
     static int n;
     static int[] a;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
@@ -20,30 +21,19 @@ public class BJ11053 {
     public static int solve() {
         int[] dp = new int[n];
 
-        // 초기값
-        dp[0] = 1;
-
-        for (int i = 1; i < n; i++) {
-            int maxNum = 0;
-            int maxIdx = 0;
-            boolean isSmall = false;
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1; // 초기값
             for (int j = 0; j < i; j++) {
-                // dp[i]보다 이전 값들 중 작은 값이 있다면
-                if (a[i] > a[j]) {
-                    // 그 중 dp값이 가장 큰 값 찾기
-                    if (dp[j] > maxNum) {
-                        maxNum = dp[j];
-                        maxIdx = j;
-                    }
-                    dp[i] = dp[maxIdx] + 1;
-                    isSmall = true;
+                if (a[j] < a[i]) {
+                    dp[i] = Math.max(dp[j] + 1, dp[i]); // dp[j] 값들 중 최댓값으로
                 }
             }
-            // dp[i]보다 이전 값들 중 작은 값이 없다면
-            if (!isSmall) {
-                dp[i] = 1;
-            }
         }
-        return Arrays.stream(dp).max().getAsInt(); // dp[]의 최댓값 반환.
+
+        int maxValue = 0;
+        for (int i = 0; i < n; i++) {
+            maxValue = (maxValue < dp[i] ? dp[i] : maxValue);
+        }
+        return maxValue;
     }
 }
