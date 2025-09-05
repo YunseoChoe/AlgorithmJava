@@ -21,10 +21,11 @@ public class BJ11722 {
     public static int solve() {
         int[] dp = new int[n];
 
-        for (int i = 0; i < n; i++) {
+        // 증가하는 부분 수열을 역순으로 바꿈.
+        for (int i = n - 1; i >= 0; i--) {
             dp[i] = 1;
-            for (int j = 0; j < n; j++) {
-                if (arr[i] < arr[j]) {
+            for (int j = n - 1; j > i; j--) {
+                if (arr[i] > arr[j]) {
                     dp[i] = Math.max(dp[j] + 1, dp[i]);
                 }
             }
