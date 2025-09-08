@@ -28,8 +28,8 @@ public class BJ9251 {
                     if (i == 0 || j == 0) {
                         dp[i][j] = 1; 
                     } else {
-                        // dp[i][j] = dp[i - 1][j - 1] + 1; // 대각선 + 1
-                        dp[i][j] = dp[i][j - 1] + 1; 
+                        dp[i][j] = dp[i - 1][j - 1] + 1; // 대각선 + 1
+                        // dp[i][j] = dp[i][j - 1] + 1; 
                     }
                 }
                 // 문자가 다르다면
@@ -38,14 +38,14 @@ public class BJ9251 {
                         dp[i][j] = 0; // 시작점
                     } 
                     else if (i == 0) {
-                        dp[i][j] = dp[i][j - 1]; // 0번째 열이면 위쪽 값
+                        dp[i][j] = dp[i][j - 1]; // 0번째 행이면 왼쪽 값 
                     } 
                     else if (j == 0) {
-                        dp[i][j] = dp[i - 1][j]; // 0번째 행이면 왼쪽 값
+                        dp[i][j] = dp[i - 1][j]; // 0번째 열이면 위쪽 값
                     } 
                     else {
-                        // dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]); // 위쪽 or 왼쪽
-                        dp[i][j] = dp[i][j - 1];  
+                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]); // 위쪽 or 왼쪽
+                        // dp[i][j] = dp[i][j - 1];  
                     }
                 }
             }
