@@ -4,31 +4,39 @@ import java.util.*;
 import java.io.*;
 
 public class BJ1929 {
-    public static boolean solve(int num) {
-        // TODO: m이상 n이하의 소수를 모두 반환
-        // 1. m이상 n이하 번만큼 solve() 호출
-        // 2. 한 번만 호출하고 int[]로 반환
+    static int m, n;
+    static boolean[] isPrime;
 
-        if (num < 2) {
-            return false;
+    public static void solve() {
+        // 에라토스테네스의 체
+        isPrime = new boolean[n + 1];
+        for (int i = 0; i < isPrime.length; i++) {
+            isPrime[i] = true;
         }
-        for (int i = 2; i < num; i++) {
-            if (num % i == 0) {
-                return false;
+
+        isPrime[0] = isPrime[1] = false;
+        for (int i = 2; i * i <= n; i++) { // 항상 2부터 시작해야 함, n의 제곱근까지 확인
+            // 해당 수가 소수라면
+            if (isPrime[i]) {
+                // 해당 수를 제외한 모든 배수들 false처리
+                for (int j = i * i; j <= n; j = j + i) {
+                    isPrime[j] = false;
+                }
             }
-        }
-        return true;
+        }   
     }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int m = Integer.parseInt(st.nextToken());
-        int n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
 
-        
+        solve();
+
         for (int i = m; i <= n; i++) {
-            if (solve(i)) {
+            if (isPrime[i]) {
                 System.out.println(i);
             }
         }
