@@ -4,29 +4,32 @@ import java.util.*;
 import java.io.*;
 
 public class BJ11050 {
-    public static int solve(int n, int k) {
-        // 분모
-        int denominator = 1;
-        for (int i = n; i > n - k; i--) {
-            denominator *= i;
-        }
+    static int n, k, cnt = 0;
+    static int[] arr;
 
-        // 분자
-        int numerator = 1;
-        for (int i = k; i > k - k; i--) {
-            numerator *= i;
+    public static void solve(int depth, int start) {
+        // 조합
+        if (depth == k) {
+            cnt++;
+            return;
         }
-
-        return denominator / numerator;
+        
+        for (int i = start; i <= n; i++) {
+            arr[depth] = i;
+            solve(depth + 1, i + 1);
+        }
     }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+
+        arr = new int[n];
         
-        System.out.println(solve(n, k));   
+        solve(0, 1);
+        System.out.println(cnt);
     }
 }
