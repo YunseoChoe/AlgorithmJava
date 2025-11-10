@@ -1,50 +1,36 @@
 package 프로그래머스;
-
 import java.util.*;
 
+// 가장 긴 사전에 존재하는 문자열을 찾는 게 핵심
 public class PSG압축 {
     public int[] solution(String msg) {
-        // msg = "KAKAO"
         List<Integer> answer = new ArrayList<>();
         List<String> dictionary = new ArrayList<>();
 
-        // A ~ Z 초기 사전 등록
+        // A~Z 초기화
         for (char c = 'A'; c <= 'Z'; c++) {
             dictionary.add(String.valueOf(c));
         }
 
-        int size = 1;
         int start = 0;
-
-        // 단어 자르기
         while (start < msg.length()) {
-            if (start + size > msg.length()) {
-                break;
+            String w = "";
+            // 현재 위치부터 사전에 존재하는 가장 긴 문자열 찾기
+            while (start < msg.length() && dictionary.contains(w + msg.charAt(start))) {
+                w += msg.charAt(start);
+                start++;
             }
 
-            String newStr = msg.substring(start, start + size);
+            // 인덱스 추가
+            answer.add(dictionary.indexOf(w) + 1);
 
-            // 사전에 있으면
-            if (dictionary.contains((newStr))) {
-                // 이미 answer에 추가한 인덱스라면
-                if (answer.contains(answer.contains(dictionary.indexOf(newStr) + 1))) {
-                    size++;
-                }
-                else {
-                    answer.add(dictionary.indexOf(newStr) + 1);
-                    size++;    
-                }
-                
-            }
-            // 사전에 없으면
-            else {
-                dictionary.add(newStr);
-                start = start + size;
-                size = 1;
+            // 다음 글자 붙인 새 단어 사전에 추가
+            if (start < msg.length()) {
+                dictionary.add(w + msg.charAt(start));
             }
         }
 
-        // ArrayList → int[]
+        // 결과 변환
         int[] result = new int[answer.size()];
         for (int i = 0; i < answer.size(); i++) {
             result[i] = answer.get(i);
