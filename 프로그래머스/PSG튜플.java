@@ -1,63 +1,35 @@
 package 프로그래머스;
 import java.util.*;
 
+// - 알고리즘: LinkedHashSet
+
 public class PSG튜플 {
     public int[] solution(String s) {
-        HashSet<Integer> set = new HashSet<>();
-        
-        int n = 0;
-        for (int i = 0; i < s.length(); i++) {
-            // 숫자이면
-            if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
-                n++;
+        String[] parts = s.split("\\},\\{"); // escape: \\{ -> "{", 따라서 },{ 기준으로 나눔.
+
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(parts));
+        Collections.sort(list, Comparator.comparingInt(String::length)); // 길이 기준으로 정렬.
+
+        LinkedHashSet<Integer> set = new LinkedHashSet<>(); // 순서를 유지하면서 중복 제거.
+        for (String part : list) {
+            String[] nums = part.split(",");
+            for (String num : nums) {
+                set.add(Integer.parseInt(num));
             }
         }
-            
-        int[][] board = new int[n][n];
-        
-        // } 기준으로 나누기
-        int row = 0;
-        int col = 0;
-        String number = "";
-        for (int i = 0; i < s.length(); i++) {
-            // 숫자면
-            if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
-                number += s.charAt(i);  
-            } 
-            
-            else if (s.charAt(i) == ',' || s.charAt(i) == '}') {
-                if (!number.isEmpty()) {
-                    board[row][col] = Integer.parseInt(number);
-                    col++;
-                    number = "";
-                }
-                
-                if (s.charAt(i) == '}') {
-                    col = 0;
-                    row++;
-                }
-            }
-        }
-        
-        // set 이용해서 중복 없이 저장.
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (board[i][j] != 0) {
-                    set.add(board[i][j]);    
-                }
-                
-            }
-        }
-        
+
         // set -> int[]
-        int idx = 0;
         int[] answer = new int[set.size()];
-        for (int i : set) {
-            answer[idx] = i;
+        int idx = 0;
+        for (int num : set) {
+            answer[idx] = num;
             idx++;
         }
         
+        // for (int i = 0; i < answer.length; i++) {
+        //     System.out.print(answer[i] + " ");
+        // }
+
         return answer;
     }
 }
-
