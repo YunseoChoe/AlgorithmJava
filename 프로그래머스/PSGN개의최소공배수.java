@@ -1,5 +1,7 @@
 package 프로그래머스;
 
+// 알고리즘 - 재귀
+
 public class PSGN개의최소공배수 {
     // 최대공약수
     public int gcd(int a, int b) {
