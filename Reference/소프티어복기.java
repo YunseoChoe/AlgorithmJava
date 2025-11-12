@@ -88,6 +88,6 @@ public class 소프티어복기 {
         int ax = 0, ay = 0;
         int bx = 6, by = 6;
 
-        System.out.println("최소 경로는: " + solution(ax, ay, bx, by, square));
+        System.out.println(solution(ax, ay, bx, by, square));
     }
 }
