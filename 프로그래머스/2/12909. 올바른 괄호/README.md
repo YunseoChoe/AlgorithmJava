@@ -1,10 +1,10 @@
 # [level 2] 올바른 괄호 - 12909 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12909?gad_source=1&gad_campaignid=23037984604&gbraid=0AAAAAC_c4nBRkymN9Hi7Jr4QqvnXGSKTt&gclid=Cj0KCQiAtfXMBhDzARIsAJ0jp3ABK_YqI4Toqh0K9a3EqE29b6r5FtblJB2wmfyzPWrZHT8I5chP0-saAtlMEALw_wcB) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12909?gad_source=1&gad_campaignid=23037984604&gbraid=0AAAAAC_c4nBRkymN9Hi7Jr4QqvnXGSKTt&gclid=Cj0KCQiAtfXMBhDzARIsAJ0jp3CA-h3pAwFM3YMaMvWqrqFqTjC6K-tpiSjVz1jIqSzpDJ16KgOKwVEaAk10EALw_wcB) 
 
 ### 성능 요약
 
-메모리: 54.8 MB, 시간: 12.35 ms
+메모리: 54.4 MB, 시간: 13.91 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 02월 25일 11:39:45
+2026년 02월 25일 12:00:01
 
 ### 문제 설명
 
