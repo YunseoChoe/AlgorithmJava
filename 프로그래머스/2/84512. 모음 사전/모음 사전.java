@@ -13,7 +13,7 @@ class Solution {
         }
 
         for (int i = 0; i < 5; i++) {
-            dfs(str + words[i], depth + 1);
+            dfs(str + words[i], depth + 1); 
         }
     }
     
