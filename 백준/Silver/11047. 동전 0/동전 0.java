@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
     static int n, k, cnt = 0;
-    static int[] moneys;
+    static int[] monies;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -10,20 +10,20 @@ public class Main {
         n = sc.nextInt();
         k = sc.nextInt();
 
-        moneys = new int[n];
+        monies = new int[n];
         for (int i = 0; i < n; i++) {
-            moneys[i] = sc.nextInt();
+            monies[i] = sc.nextInt();
         }
 
         // values 오름차순 정렬 후 뒤집기
-        Arrays.sort(moneys);
+        Arrays.sort(monies);
 
-        int[] reversedMoneys = new int[n];
-        for (int i = 0; i < moneys.length; i++) {
-            reversedMoneys[i] = moneys[n - (i + 1)];
+        int[] reversedMonies = new int[n];
+        for (int i = 0; i < monies.length; i++) {
+            reversedMonies[i] = monies[n - (i + 1)];
         }
 
-        for (int value : reversedMoneys) {
+        for (int value : reversedMonies) {
             cnt += k / value;
             k %= value;
         }
