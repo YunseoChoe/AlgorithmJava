@@ -23,9 +23,9 @@ public class Main {
             reversedMonies[i] = monies[n - (i + 1)];
         }
 
-        for (int value : reversedMonies) {
-            cnt += k / value;
-            k %= value;
+        for (int money : reversedMonies) {
+            cnt += k / money;
+            k %= money;
         }
 
         System.out.println(cnt);
