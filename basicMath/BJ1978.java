@@ -4,6 +4,7 @@ import java.util.*;
 import java.io.*;
 
 public class BJ1978 {
+    
     static int n;
 
     public static boolean solve(int num) {
