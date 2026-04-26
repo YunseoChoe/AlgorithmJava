@@ -3,6 +3,7 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    
     static int n;
 
     public static boolean solve(int num) {
