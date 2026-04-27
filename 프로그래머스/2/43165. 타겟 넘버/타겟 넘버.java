@@ -4,6 +4,7 @@ class Solution {
     static int answer = 0;
     
     public void dfs(int[] numbers, int depth, int sum, int target)  {
+        
         if (depth == numbers.length) {
             // 연산 결과 == target
             if (sum == target) {
