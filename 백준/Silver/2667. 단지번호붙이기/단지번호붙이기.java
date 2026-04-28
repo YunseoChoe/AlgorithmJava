@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class Main {
@@ -41,18 +40,18 @@ public class Main {
         for (int i = 0; i < n; i++) {
             String line = sc.next();
             for (int j = 0; j < n; j++) {
-                board[i][j] = line.charAt(j) - '0';
+                board[i][j] = Integer.parseInt(String.valueOf(line.charAt(j)));
             }
         }
-
+        
         ArrayList<Integer> result = new ArrayList<>();
 
         // 전체 탐색
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (board[i][j] == 1 && !visited[i][j]) {
-                    int size = dfs(i, j);
-                    result.add(size);
+                    int cntOfHome = dfs(i, j);
+                    result.add(cntOfHome);
                 }
             }
         }
@@ -61,7 +60,7 @@ public class Main {
         Collections.sort(result);
 
         // 출력
-        System.out.println(result.size());
+        System.out.println(result.size()); // 단지의 개수.
         for (int x : result) {
             System.out.println(x);
         }
