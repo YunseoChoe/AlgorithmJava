@@ -3,72 +3,58 @@ import java.util.*;
 
 public class Main {
     static int n, m;
-    static int[][] graph;
-    static int[] dx = {0, 0, -1, 1};
-    static int[] dy = {1, -1, 0, 0};
-    static boolean[][] visited;
     static int maxSum = 0;
-    static int maxTSum = 0;
-    
-    
-    static int[][][] tShapes = {
-        { {0, 0}, {1, 0}, {2, 0}, {1, 1} },  // ㅏ
-        { {0, 1}, {1, 0}, {1, 1}, {2, 1} },  // ㅓ
-        { {0, 0}, {1, -1}, {1, 0}, {1, 1} }, // ㅗ
-        { {0, 0}, {0, 1}, {0, 2}, {1, 1} }   // ㅜ
-    };
-    
+    static boolean[][] visited;
+    static int[][] board;
+    static int[] dx = {0, 0, 1, -1};
+    static int[] dy = {1, -1, 0, 0};
 
     public static void main(String[] args) {
-        // 입력
-        Scanner scanner = new Scanner(System.in);
-        n = scanner.nextInt();
-        m = scanner.nextInt();
-        graph = new int[n][m];
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        board = new int[n][m];
+        visited = new boolean[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                graph[i][j] = scanner.nextInt();
+                board[i][j] = sc.nextInt();
             }
         }
 
-        // 방문배열 초기화
-        visited = new boolean[n][m];
-    
         // 함수 호출
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                visited[i][j] = true;
-                general(i, j,  1, graph[i][j]);
+                visited[i][j] = true; 
+                solve(1, board[i][j], i, j);
                 visited[i][j] = false;
             }
         }
-
-        System.out.println(Math.max(maxSum, maxTSum));
-        scanner.close();
+        System.out.println(maxSum);
     }
 
-    public static void general(int x, int y, int depth, int sum) {
+    public static void solve(int depth, int sum, int x, int y) {
         if (depth == 4) {
-            maxSum = Math.max(maxSum, sum);
+            maxSum = Math.max(sum, maxSum);
             return;
         }
-        // 동서남북 보면서
+
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
-            // 범위 && 방문하지 않았으면
-            if ((0 <= nx && nx < n) && (0 <= ny && ny < m) && visited[nx][ny] == false) {
-                // T shape
-                if (depth == 2) {
+            if (0 <= nx && nx < n && 0 <= ny && ny < m) {
+                if (!visited[nx][ny]) {
+                    // ㅗ, ㅜ, ㅏ, ㅓ 예외처리를 하는 코드가 필요
+                    if (depth == 2) {
+                        visited[nx][ny] = true;
+                        solve(depth + 1, sum + board[nx][ny], x, y); // depth와 sum은 갱신, 좌표는 이동 x
+                        visited[nx][ny] = false;
+                        // return을 하지 않은 이유: 다른 모양도 봐야하기 때문.
+                    }
+                    // 그 외 다른 모양을 위한 코드
                     visited[nx][ny] = true;
-                    general(x, y, depth + 1, sum + graph[nx][ny]);
+                    solve(depth + 1, sum + board[nx][ny], nx, ny);
                     visited[nx][ny] = false;
-                    // return; // -> return 하면 안 됨. 깊이가 2인 다른 경우도 봐야하므로
                 }
-                // T shape을 제외한 나머지 테트로미노
-                visited[nx][ny] = true;
-                general(nx, ny, depth + 1, sum + graph[nx][ny]);
-                visited[nx][ny] = false;
             }
         }
     }
