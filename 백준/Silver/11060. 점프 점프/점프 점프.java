@@ -1,40 +1,49 @@
-// 점프 점프
+// 점프 점프 (bfs ver)
 import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int n, INF = Integer.MAX_VALUE;
+    static int n;
     static int[] a;
-    static int[] dp;
+    static int[] visited;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
         a = new int[n];
-        dp = new int[n]; 
-        Arrays.fill(dp, INF); // dp값 무한대로 초기화
-        
+        visited = new int[n];
+        Arrays.fill(visited, -1); // 점프를 하지 않고 바로 도착했을 경우를 대비해서 visited를 0이 아닌 -1로 초기화
         for (int i = 0; i < n; i++) {
             a[i] = sc.nextInt();
         }
 
         solve();
 
-        if (dp[n - 1] != INF) {
-            System.out.println(dp[n - 1]);
-        }
+        if (visited[n - 1] != -1) {
+            System.out.println(visited[n - 1]);
+        } 
         else {
             System.out.println(-1);
         }
     }
 
     public static void solve() {
-        // dp 초기값
-        dp[0] = 0;
-        
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 1; j <= a[i]; j++) {
-                if (0 <= i + j && i + j < n && dp[i] != INF) { // 자바에서는 INF에 정수값을 더하면 음수가 돼서 최솟값이 잘못 갱신될 수 있음.
-                    dp[i + j] = Math.min(dp[i + j], dp[i] + 1); // 1은 점프
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[] { 0, 0 });
+        visited[0] = 0;
+
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            int x = cur[0];
+            int cnt = cur[1];
+
+            // 1부터 a[x]까지
+            for (int i = 1; i <= a[x]; i++) {
+                int nx = x + i;
+                // 방문하지 않았고, 범위 o
+                if (0 <= nx && nx < n && visited[nx] == -1) {
+                    queue.add(new int[] { nx, cnt + 1 });
+                    visited[nx] = cnt + 1;
                 }
             }
         }
