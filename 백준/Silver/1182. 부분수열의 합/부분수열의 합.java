@@ -1,4 +1,5 @@
-
+// 부분수열의 합 
+// 백트래킹 방법 x
 import java.util.*;
 
 public class Main {
